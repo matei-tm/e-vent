@@ -40,12 +40,11 @@ namespace pressure
   class Pressure
   {
   public:
-    Pressure(uint8_t i2c_address);
-
-    void begin();
+    Pressure(uint8_t init_address);
+    virtual void begin() = 0;
 
     //Get pressure reading
-    void read();
+    virtual void read() = 0;
 
     const float &get();
 
@@ -59,13 +58,36 @@ namespace pressure
     const float &plateau();
     const float &peep();
 
-  private:
-    void getdata(byte *a, byte *b, byte *c, byte *d);
-
-    int i2c_address_;
+  protected:
+    int init_address_;
     float current_;
     float current_peak_;
     float peak_, plateau_, peep_;
+  };
+
+  class PressureByI2C : public Pressure
+  {
+  public:
+    PressureByI2C(uint8_t init_address);
+
+    void begin();
+
+    //Get pressure reading
+    void read();
+
+  private:
+    void getdata(byte *a, byte *b, byte *c, byte *d);
+  };
+
+  class PressureByAnalog : public Pressure
+  {
+  public:
+    PressureByAnalog(uint8_t init_pin);
+
+    void begin();
+
+    //Get pressure reading
+    void read();
   };
 } // namespace pressure
 

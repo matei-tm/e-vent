@@ -78,7 +78,14 @@ display::Display displ(&lcd, AC_MIN);
 alarms::AlarmManager alarm(BEEPER_PIN, SNOOZE_PIN, LED_ALARM_PIN, &displ, &cycleCount);
 
 // Pressure
-pressure::Pressure pressureReader(I2C_ADDRESS);
+// Two implementations are provided, analog and digital(i2c) depending on your hardware
+// Use appropriate instance:
+//  - for analog sensor: PressureByAnalog pressureReader(PRESS_SENSE_PIN)
+//  - for i2c sensor: PressureByI2C pressureReader(I2C_ADDRESS)
+pressure::PressureByI2C pressureReader(I2C_ADDRESS);
+
+// PressureByAnalog - if needed switch to analog by commenting the previous
+// pressure::PressureByAnalog pressureReader(PRESS_SENSE_PIN);
 
 // Buttons
 buttons::PressHoldButton offButton(OFF_PIN, 2000);

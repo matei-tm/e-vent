@@ -25,7 +25,7 @@
  */
 
 /**
- * Pressure.cpp
+ * PressureByAnalog.cpp
  * Calculates and stores the key pressure values of the breathing cycle.
  */
 
@@ -33,36 +33,30 @@
 
 namespace pressure
 {
-  Pressure ::Pressure(uint8_t init_address) : init_address_(init_address),
-                                              current_(0.0),
-                                              current_peak_(0.0),
-                                              peak_(0.0),
-                                              plateau_(0.0),
-                                              peep_(0.0) {}
+  PressureByAnalog ::PressureByAnalog(uint8_t input_pin) : Pressure(input_pin) {}
 
-  const float &Pressure ::get()
+  void PressureByAnalog ::begin()
   {
-    return current_;
   }
 
-  void Pressure ::set_peak_and_reset()
+  // Get pressure reading for NPA-730B-005D
+  void PressureByAnalog ::read()
   {
-    peak_ = current_peak_;
-    current_peak_ = 0.0;
+    // read the voltage
+    int V = analogRead(init_address_);
+
+    float Pmin = -100.0; // pressure max in mbar
+    float Pmax = 100.0;  // pressure min in mbar
+    float Vmax = 1024;   // max voltage in range from analogRead
+    // convert to pressure
+    float pres = (10 * V / Vmax - 1) * (Pmax - Pmin) / 8. + Pmin; //mmHg
+
+    // convert to cmH20
+    pres *= 1.01972;
+
+    // update peak
+    current_peak_ = max(current_peak_, pres);
+
+    current_ = pres;
   }
-
-  void Pressure ::set_plateau()
-  {
-    plateau_ = get();
-  }
-
-  void Pressure ::set_peep()
-  {
-    peep_ = get();
-  }
-
-  const float &Pressure ::peak() { return peak_; }
-  const float &Pressure ::plateau() { return plateau_; }
-  const float &Pressure ::peep() { return peep_; }
-
 } // namespace pressure
