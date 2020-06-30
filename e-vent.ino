@@ -78,7 +78,7 @@ display::Display displ(&lcd, AC_MIN);
 alarms::AlarmManager alarm(BEEPER_PIN, SNOOZE_PIN, LED_ALARM_PIN, &displ, &cycleCount);
 
 // Pressure
-Pressure pressureReader(PRESS_SENSE_PIN);
+pressure::Pressure pressureReader(I2C_ADDRESS);
 
 // Buttons
 buttons::PressHoldButton offButton(OFF_PIN, 2000);
@@ -148,6 +148,7 @@ void setup() {
   confirmButton.begin();
   knobs.begin();
   tCycleTimer = now();
+  pressureReader.begin();
 
   roboclaw.begin(ROBOCLAW_BAUD);
   roboclaw.SetM1MaxCurrent(ROBOCLAW_ADDR, ROBOCLAW_MAX_CURRENT);

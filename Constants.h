@@ -83,6 +83,7 @@ const int LCD_D4_PIN = 7;
 const int dLCD_D5_PIN = 6;
 const int LCD_D6_PIN = 5;
 const int LCD_D7_PIN = 4;
+const int I2C_ADDRESS = 0x28;
 
 // Control knob mappings
 const int BPM_MIN = 6;

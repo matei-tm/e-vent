@@ -33,63 +33,40 @@
 #define Pressure_h
 
 #include "Arduino.h"
+#include "Wire.h"
 
-class Pressure {
-public:
-  Pressure(int pin): 
-    sense_pin_(pin),
-    current_(0.0),
-    current_peak_(0.0),
-    peak_(0.0),
-    plateau_(0.0),
-    peep_(0.0) {}
+namespace pressure
+{
+  class Pressure
+  {
+  public:
+    Pressure(uint8_t i2c_address);
 
-  //Get pressure reading
-  void read() {
-    // read the voltage
-    int V = analogRead(sense_pin_); 
+    void begin();
 
-    float Pmin = -100.0;   // pressure max in mbar
-    float Pmax = 100.0;    // pressure min in mbar
-    float Vmax = 1024;     // max voltage in range from analogRead
-    // convert to pressure
-    float pres = (10 * V/Vmax - 1) * (Pmax-Pmin)/8. + Pmin; //mmHg
+    //Get pressure reading
+    void read();
 
-    // convert to cmH20
-    pres *= 1.01972;
+    const float &get();
 
-    // update peak
-    current_peak_ = max(current_peak_, pres);
+    void set_peak_and_reset();
 
-    current_ = pres;
-  }
+    void set_plateau();
 
-  const float& get() {
-    return current_;
-  }
+    void set_peep();
 
-  void set_peak_and_reset() {
-    peak_ = current_peak_;
-    current_peak_ = 0.0;
-  }
+    const float &peak();
+    const float &plateau();
+    const float &peep();
 
-  void set_plateau() {
-    plateau_ = get();
-  }
+  private:
+    void getdata(byte *a, byte *b, byte *c, byte *d);
 
-  void set_peep() {
-    peep_ = get();
-  }
-
-  const float& peak() { return peak_; }
-  const float& plateau() { return plateau_; }
-  const float& peep() { return peep_; }
-
-private:
-  int sense_pin_;
-  float current_;
-  float current_peak_;
-  float peak_, plateau_, peep_;
-};
+    int i2c_address_;
+    float current_;
+    float current_peak_;
+    float peak_, plateau_, peep_;
+  };
+} // namespace pressure
 
 #endif

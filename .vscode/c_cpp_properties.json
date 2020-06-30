@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\kit\\arduino\\tools\\**",
+                "C:\\kit\\arduino\\hardware\\arduino\\avr\\**",
+                "C:\\kit\\arduino\\libraries\\LiquidCrystal\\src\\**",
+                "C:\\kit\\arduino\\hardware\\tools\\avr\\avr\\include\\**",
+                "C:\\kit\\arduino\\hardware\\tools\\avr\\lib\\gcc\\avr\\7.3.0\\include\\**",
+                "C:\\kit\\arduino\\libraries\\SD\\src\\**",
+                "C:\\kit\\arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src\\**"
+            ],
+            "forcedInclude": [
+                "C:\\kit\\arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+            ],
+            "intelliSenseMode": "msvc-x64"
+        }
+    ],
+    "version": 4
+}
