@@ -114,14 +114,14 @@ const float TURNING_OFF_DURATION = 5.0; // Turning-off alarm is on for this dura
 const float MECHANICAL_TIMEOUT = 1.0;   // Time to wait for the mechanical cycle to finish before alarming
 
 // PID values for auto-tuned for PG188
-const unsigned long QPPS = 2000;
+const unsigned long QPPS = 1875;
 const float VKP = 6.38650;
-const float VKI = 0.0;
+const float VKI = 0.95794;
 const float VKD = 0.0;
-const float PKP = 70.0;
-const float PKI = 0.2;
-const float PKD = 200.0;
-const unsigned long KI_MAX = 10;
+const float PKP = 61.92531;
+const float PKI = 1.19546;
+const float PKD = 358.63881;
+const unsigned long KI_MAX = 18;
 const unsigned long DEADZONE = 0;
 const unsigned long MIN_POS = -100;
 const unsigned long MAX_POS = 700;
